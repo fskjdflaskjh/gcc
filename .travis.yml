@@ -1,0 +1,91 @@
+sudo: false
+dist: trusty
+
+language: c++
+
+addons:
+  apt:
+    packages:
+      - libmpc-dev
+        libmpfr-dev
+        texinfo
+        dejagnu
+
+script:
+  - mkdir build && cd build &&
+    ../configure --target=${TARGET_TRIPLET} ${CONFIG_OPTIONS} --prefix=`pwd`/root --disable-shared --disable-libssp --disable-libisl --enable-languages=c,c++ --enable-tls --enable-threads --enable-__cxa_atexit CFLAGS='-O0' &&
+    make ${GOAL_ALL:-all-gcc} &&
+    ${GOAL_CHECK:+make $GOAL_CHECK}
+
+matrix:
+  include:
+    - env:
+        - TARGET_TRIPLET='x86_64-pc-linux-gnu'
+          CONFIG_OPTIONS='--disable-bootstrap'
+    - env:
+        - TARGET_TRIPLET='aarch64-elf'
+    - env:
+        - TARGET_TRIPLET='alpha-linux-gnu'
+    - env:
+        - TARGET_TRIPLET='arc-elf'
+    - env:
+        - TARGET_TRIPLET='arm-linux-gnueabi'
+    - env:
+        - TARGET_TRIPLET='bfin-elf'
+    - env:
+        - TARGET_TRIPLET='c6x-elf'
+    - env:
+        - TARGET_TRIPLET='cris-elf'
+    - env:
+        - TARGET_TRIPLET='csky-elf'
+    - env:
+        - TARGET_TRIPLET='epiphany-elf'
+    - env:
+        - TARGET_TRIPLET='frv-elf'
+    - env:
+        - TARGET_TRIPLET='ia64-elf'
+    - env:
+        - TARGET_TRIPLET='m68k-elf'
+    - env:
+        - TARGET_TRIPLET='microblaze-elf'
+    - env:
+        - TARGET_TRIPLET='mips-elf'
+    - env:
+        - TARGET_TRIPLET='mmix-knuth-mmixware'
+    - env:
+        - TARGET_TRIPLET='mn10300-elf'
+    - env:
+        - TARGET_TRIPLET='nds32-elf'
+    - env:
+        - TARGET_TRIPLET='nios2-elf'
+    - env:
+        - TARGET_TRIPLET='or1k-elf'
+    - env:
+        - TARGET_TRIPLET='parisc-elf'
+    - env:
+        - TARGET_TRIPLET='riscv-elf'
+    - env:
+        - TARGET_TRIPLET='ppc-elf'
+    - env:
+        - TARGET_TRIPLET='s390-linux-gnu'
+    - env:
+        - TARGET_TRIPLET='sh-elf'
+    - env:
+        - TARGET_TRIPLET='sparc-elf'
+    - env:
+        - TARGET_TRIPLET='spu-elf'
+          CONFIG_OPTIONS='--enable-obsolete'
+    - env:
+        - TARGET_TRIPLET='xstormy16-elf'
+    - env:
+        - TARGET_TRIPLET='tilegx-linux-gnu'
+          CONFIG_OPTIONS='--enable-obsolete'
+    - env:
+        - TARGET_TRIPLET='tilepro-linux-gnu'
+          CONFIG_OPTIONS='--enable-obsolete'
+    - env:
+        - TARGET_TRIPLET='vax-linux-gnu'
+    - env:
+        - TARGET_TRIPLET='x86_64-pc-linux-gnu'
+    - env:
+        - TARGET_TRIPLET='xtensa-elf'
